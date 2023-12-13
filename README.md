@@ -1,1 +1,2 @@
-# DZHALABEN-GAJA
+# Rotating Savings and Credit Association (ROSCA): 
+In traditional ROSCAs, a group of individuals agree to meet for a set period of time, and each session, they contribute an agreed amount of money into a pool. This pool is then given to one member of the group on a rotating basis. However, your concept differs slightly in that it seems to include elements of earning interest, which is not typical in a standard ROSCA.
