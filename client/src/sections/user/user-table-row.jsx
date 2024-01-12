@@ -20,7 +20,7 @@ export default function UserTableRow({
   selected,
   name,
   avatarUrl,
-  company,
+  email,
   role,
   isVerified,
   status,
@@ -52,7 +52,7 @@ export default function UserTableRow({
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{email}</TableCell>
 
         <TableCell>{role}</TableCell>
 
@@ -95,7 +95,7 @@ export default function UserTableRow({
 
 UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  email: PropTypes.any,
   handleClick: PropTypes.func,
   isVerified: PropTypes.any,
   name: PropTypes.any,
