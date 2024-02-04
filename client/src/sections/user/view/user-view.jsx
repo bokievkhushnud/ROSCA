@@ -33,7 +33,7 @@ export default function UserPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const [users, setUsers] = useState([]);
 
@@ -94,7 +94,6 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
-  // fetch the users from the database http://127.0.0.1:8000/api/users/
   useEffect(() => {
     fetch('http://127.0.0.1:8000/api/users/',{
       method: 'GET',
@@ -104,7 +103,6 @@ export default function UserPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUsers(data)
       });
   }, []);
@@ -141,7 +139,7 @@ export default function UserPage() {
                   { id: 'name', label: 'Name' },
                   { id: 'email', label: 'Email' },
                   { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
+                  { id: 'online', label: 'Last login' },
                   { id: 'status', label: 'Status' },
                   { id: '' },
                 ]}
@@ -149,15 +147,15 @@ export default function UserPage() {
               <TableBody>
                 {dataFiltered
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => (
+                  .map((row, index) => (
                     <UserTableRow
                       key={row.id}
                       name={`${row.first_name} ${row.last_name}`}
-                      role={row.role}
-                      status={row.status}
+                      role={row.is_staff ? 'Admin' : 'User'}
+                      status={row.is_active ? 'active' : 'banned'}
                       email={row.email}
-                      avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
+                      online={row.last_login}
+                      avatarUrl={`/assets/images/avatars/avatar_${(index + 1)%25}.jpg`}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
@@ -180,7 +178,7 @@ export default function UserPage() {
           count={users.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 20, 30]}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Card>

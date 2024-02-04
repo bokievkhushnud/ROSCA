@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { format, formatDistanceToNow, isBefore, subDays } from 'date-fns';
 
 import Stack from '@mui/material/Stack';
 import Avatar from '@mui/material/Avatar';
@@ -16,13 +17,23 @@ import Iconify from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+
+  if (isBefore(subDays(now, 3), date)) {
+    return `${formatDistanceToNow(date)}`;
+  }
+  return format(date, 'MMM d, yyyy');
+}
+
 export default function UserTableRow({
   selected,
   name,
   avatarUrl,
   email,
+  online,
   role,
-  isVerified,
   status,
   handleClick,
 }) {
@@ -56,7 +67,7 @@ export default function UserTableRow({
 
         <TableCell>{role}</TableCell>
 
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
+        <TableCell align="center">{formatDate(online)}</TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -97,7 +108,7 @@ UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
   email: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
+  online: PropTypes.any,
   name: PropTypes.any,
   role: PropTypes.any,
   selected: PropTypes.any,
