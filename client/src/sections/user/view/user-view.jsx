@@ -95,13 +95,14 @@ export default function UserPage() {
   const notFound = !dataFiltered.length && !!filterName;
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/users/',{
+    console.log(import.meta.env.VITE_BACKEND_API)
+    fetch(`${import.meta.env.VITE_BACKEND_API}/api/users/`,{
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((res) => res.json())
+      .then((res) => console.log(res) || res.json())
       .then((data) => {
         setUsers(data)
       });
