@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-import Box from '@mui/material/Box';
+import Box from '@mui/material/Box'
 
-import Nav from './nav';
-import Main from './main';
-import Header from './header';
+import Header from './header'
+import Main from './main'
+import Nav from './nav'
 
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout({ children }) {
-  const [openNav, setOpenNav] = useState(false);
+  const [openNav, setOpenNav] = useState(false)
 
   return (
     <>
@@ -28,9 +28,9 @@ export default function DashboardLayout({ children }) {
         <Main>{children}</Main>
       </Box>
     </>
-  );
+  )
 }
 
 DashboardLayout.propTypes = {
   children: PropTypes.node,
-};
+}

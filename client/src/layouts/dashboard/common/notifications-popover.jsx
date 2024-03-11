@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { set, sub } from 'date-fns';
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
+import { set, sub } from 'date-fns'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import Badge from '@mui/material/Badge';
-import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
-import Tooltip from '@mui/material/Tooltip';
-import Popover from '@mui/material/Popover';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemButton from '@mui/material/ListItemButton';
+import Avatar from '@mui/material/Avatar'
+import Badge from '@mui/material/Badge'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import ListSubheader from '@mui/material/ListSubheader'
+import Popover from '@mui/material/Popover'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 
-import { fToNow } from 'src/utils/format-time';
+import { fToNow } from 'src/utils/format-time'
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import Iconify from 'src/components/iconify'
+import Scrollbar from 'src/components/scrollbar'
 
 // ----------------------------------------------------------------------
 
@@ -71,37 +71,39 @@ const NOTIFICATIONS = [
     createdAt: sub(new Date(), { days: 3, hours: 3, minutes: 30 }),
     isUnRead: false,
   },
-];
+]
 
 export default function NotificationsPopover() {
-  const [notifications, setNotifications] = useState(NOTIFICATIONS);
+  const [notifications, setNotifications] = useState(NOTIFICATIONS)
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
+  const totalUnRead = notifications.filter(
+    (item) => item.isUnRead === true,
+  ).length
 
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(null)
 
   const handleOpen = (event) => {
-    setOpen(event.currentTarget);
-  };
+    setOpen(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setOpen(null);
-  };
+    setOpen(null)
+  }
 
   const handleMarkAllAsRead = () => {
     setNotifications(
       notifications.map((notification) => ({
         ...notification,
         isUnRead: false,
-      }))
-    );
-  };
+      })),
+    )
+  }
 
   return (
     <>
       <IconButton color={open ? 'primary' : 'default'} onClick={handleOpen}>
-        <Badge badgeContent={totalUnRead} color="error">
-          <Iconify width={24} icon="solar:bell-bing-bold-duotone" />
+        <Badge badgeContent={totalUnRead} color='error'>
+          <Iconify width={24} icon='solar:bell-bing-bold-duotone' />
         </Badge>
       </IconButton>
 
@@ -121,16 +123,16 @@ export default function NotificationsPopover() {
       >
         <Box sx={{ display: 'flex', alignItems: 'center', py: 2, px: 2.5 }}>
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="subtitle1">Notifications</Typography>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            <Typography variant='subtitle1'>Notifications</Typography>
+            <Typography variant='body2' sx={{ color: 'text.secondary' }}>
               You have {totalUnRead} unread messages
             </Typography>
           </Box>
 
           {totalUnRead > 0 && (
-            <Tooltip title=" Mark all as read">
-              <IconButton color="primary" onClick={handleMarkAllAsRead}>
-                <Iconify icon="eva:done-all-fill" />
+            <Tooltip title=' Mark all as read'>
+              <IconButton color='primary' onClick={handleMarkAllAsRead}>
+                <Iconify icon='eva:done-all-fill' />
               </IconButton>
             </Tooltip>
           )}
@@ -142,26 +144,38 @@ export default function NotificationsPopover() {
           <List
             disablePadding
             subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+              <ListSubheader
+                disableSticky
+                sx={{ py: 1, px: 2.5, typography: 'overline' }}
+              >
                 New
               </ListSubheader>
             }
           >
             {notifications.slice(0, 2).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+              />
             ))}
           </List>
 
           <List
             disablePadding
             subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+              <ListSubheader
+                disableSticky
+                sx={{ py: 1, px: 2.5, typography: 'overline' }}
+              >
                 Before that
               </ListSubheader>
             }
           >
             {notifications.slice(2, 5).map((notification) => (
-              <NotificationItem key={notification.id} notification={notification} />
+              <NotificationItem
+                key={notification.id}
+                notification={notification}
+              />
             ))}
           </List>
         </Scrollbar>
@@ -175,7 +189,7 @@ export default function NotificationsPopover() {
         </Box>
       </Popover>
     </>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------
@@ -190,10 +204,10 @@ NotificationItem.propTypes = {
     type: PropTypes.string,
     avatar: PropTypes.any,
   }),
-};
+}
 
 function NotificationItem({ notification }) {
-  const { avatar, title } = renderContent(notification);
+  const { avatar, title } = renderContent(notification)
 
   return (
     <ListItemButton
@@ -213,7 +227,7 @@ function NotificationItem({ notification }) {
         primary={title}
         secondary={
           <Typography
-            variant="caption"
+            variant='caption'
             sx={{
               mt: 0.5,
               display: 'flex',
@@ -221,53 +235,82 @@ function NotificationItem({ notification }) {
               color: 'text.disabled',
             }}
           >
-            <Iconify icon="eva:clock-outline" sx={{ mr: 0.5, width: 16, height: 16 }} />
+            <Iconify
+              icon='eva:clock-outline'
+              sx={{ mr: 0.5, width: 16, height: 16 }}
+            />
             {fToNow(notification.createdAt)}
           </Typography>
         }
       />
     </ListItemButton>
-  );
+  )
 }
 
 // ----------------------------------------------------------------------
 
 function renderContent(notification) {
   const title = (
-    <Typography variant="subtitle2">
+    <Typography variant='subtitle2'>
       {notification.title}
-      <Typography component="span" variant="body2" sx={{ color: 'text.secondary' }}>
+      <Typography
+        component='span'
+        variant='body2'
+        sx={{ color: 'text.secondary' }}
+      >
         &nbsp; {notification.description}
       </Typography>
     </Typography>
-  );
+  )
 
   if (notification.type === 'order_placed') {
     return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_package.svg" />,
+      avatar: (
+        <img
+          alt={notification.title}
+          src='/assets/icons/ic_notification_package.svg'
+        />
+      ),
       title,
-    };
+    }
   }
   if (notification.type === 'order_shipped') {
     return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_shipping.svg" />,
+      avatar: (
+        <img
+          alt={notification.title}
+          src='/assets/icons/ic_notification_shipping.svg'
+        />
+      ),
       title,
-    };
+    }
   }
   if (notification.type === 'mail') {
     return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_mail.svg" />,
+      avatar: (
+        <img
+          alt={notification.title}
+          src='/assets/icons/ic_notification_mail.svg'
+        />
+      ),
       title,
-    };
+    }
   }
   if (notification.type === 'chat_message') {
     return {
-      avatar: <img alt={notification.title} src="/assets/icons/ic_notification_chat.svg" />,
+      avatar: (
+        <img
+          alt={notification.title}
+          src='/assets/icons/ic_notification_chat.svg'
+        />
+      ),
       title,
-    };
+    }
   }
   return {
-    avatar: notification.avatar ? <img alt={notification.title} src={notification.avatar} /> : null,
+    avatar: notification.avatar ? (
+      <img alt={notification.title} src={notification.avatar} />
+    ) : null,
     title,
-  };
+  }
 }

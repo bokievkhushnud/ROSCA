@@ -1,28 +1,28 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import { alpha } from '@mui/material/styles';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Unstable_Grid2'
+import { alpha } from '@mui/material/styles'
 
-import { fDate } from 'src/utils/format-time';
-import { fShortenNumber } from 'src/utils/format-number';
+import { fShortenNumber } from 'src/utils/format-number'
+import { fDate } from 'src/utils/format-time'
 
-import Iconify from 'src/components/iconify';
-import SvgColor from 'src/components/svg-color';
+import Iconify from 'src/components/iconify'
+import SvgColor from 'src/components/svg-color'
 
 // ----------------------------------------------------------------------
 
 export default function PostCard({ post, index }) {
-  const { cover, title, view, comment, share, author, createdAt } = post;
+  const { cover, title, view, comment, share, author, createdAt } = post
 
-  const latestPostLarge = index === 0;
+  const latestPostLarge = index === 0
 
-  const latestPost = index === 1 || index === 2;
+  const latestPost = index === 1 || index === 2
 
   const renderAvatar = (
     <Avatar
@@ -44,13 +44,13 @@ export default function PostCard({ post, index }) {
         }),
       }}
     />
-  );
+  )
 
   const renderTitle = (
     <Link
-      color="inherit"
-      variant="subtitle2"
-      underline="hover"
+      color='inherit'
+      variant='subtitle2'
+      underline='hover'
       sx={{
         height: 44,
         overflow: 'hidden',
@@ -65,14 +65,14 @@ export default function PostCard({ post, index }) {
     >
       {title}
     </Link>
-  );
+  )
 
   const renderInfo = (
     <Stack
-      direction="row"
-      flexWrap="wrap"
+      direction='row'
+      flexWrap='wrap'
       spacing={1.5}
-      justifyContent="flex-end"
+      justifyContent='flex-end'
       sx={{
         mt: 3,
         color: 'text.disabled',
@@ -85,7 +85,7 @@ export default function PostCard({ post, index }) {
       ].map((info, _index) => (
         <Stack
           key={_index}
-          direction="row"
+          direction='row'
           sx={{
             ...((latestPostLarge || latestPost) && {
               opacity: 0.48,
@@ -94,15 +94,17 @@ export default function PostCard({ post, index }) {
           }}
         >
           <Iconify width={16} icon={info.icon} sx={{ mr: 0.5 }} />
-          <Typography variant="caption">{fShortenNumber(info.number)}</Typography>
+          <Typography variant='caption'>
+            {fShortenNumber(info.number)}
+          </Typography>
         </Stack>
       ))}
     </Stack>
-  );
+  )
 
   const renderCover = (
     <Box
-      component="img"
+      component='img'
       alt={title}
       src={cover}
       sx={{
@@ -113,12 +115,12 @@ export default function PostCard({ post, index }) {
         position: 'absolute',
       }}
     />
-  );
+  )
 
   const renderDate = (
     <Typography
-      variant="caption"
-      component="div"
+      variant='caption'
+      component='div'
       sx={{
         mb: 2,
         color: 'text.disabled',
@@ -130,12 +132,12 @@ export default function PostCard({ post, index }) {
     >
       {fDate(createdAt)}
     </Typography>
-  );
+  )
 
   const renderShape = (
     <SvgColor
-      color="paper"
-      src="/assets/icons/shape-avatar.svg"
+      color='paper'
+      src='/assets/icons/shape-avatar.svg'
       sx={{
         width: 80,
         height: 36,
@@ -146,7 +148,7 @@ export default function PostCard({ post, index }) {
         ...((latestPostLarge || latestPost) && { display: 'none' }),
       }}
     />
-  );
+  )
 
   return (
     <Grid xs={12} sm={latestPostLarge ? 12 : 6} md={latestPostLarge ? 6 : 3}>
@@ -199,10 +201,10 @@ export default function PostCard({ post, index }) {
         </Box>
       </Card>
     </Grid>
-  );
+  )
 }
 
 PostCard.propTypes = {
   post: PropTypes.object.isRequired,
   index: PropTypes.number,
-};
+}

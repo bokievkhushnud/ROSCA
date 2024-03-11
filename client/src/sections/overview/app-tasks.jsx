@@ -1,29 +1,29 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Popover from '@mui/material/Popover';
-import MenuItem from '@mui/material/MenuItem';
-import Checkbox from '@mui/material/Checkbox';
-import IconButton from '@mui/material/IconButton';
-import CardHeader from '@mui/material/CardHeader';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Popover from '@mui/material/Popover'
+import Stack from '@mui/material/Stack'
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
 
 // ----------------------------------------------------------------------
 
 export default function AnalyticsTasks({ title, subheader, list, ...other }) {
-  const [selected, setSelected] = useState(['2']);
+  const [selected, setSelected] = useState(['2'])
 
   const handleClickComplete = (taskId) => {
     const tasksCompleted = selected.includes(taskId)
       ? selected.filter((value) => value !== taskId)
-      : [...selected, taskId];
+      : [...selected, taskId]
 
-    setSelected(tasksCompleted);
-  };
+    setSelected(tasksCompleted)
+  }
 
   return (
     <Card {...other}>
@@ -38,53 +38,53 @@ export default function AnalyticsTasks({ title, subheader, list, ...other }) {
         />
       ))}
     </Card>
-  );
+  )
 }
 
 AnalyticsTasks.propTypes = {
   list: PropTypes.array,
   subheader: PropTypes.string,
   title: PropTypes.string,
-};
+}
 
 // ----------------------------------------------------------------------
 
 function TaskItem({ task, checked, onChange }) {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(null)
 
   const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+    setOpen(event.currentTarget)
+  }
 
   const handleCloseMenu = () => {
-    setOpen(null);
-  };
+    setOpen(null)
+  }
 
   const handleMarkComplete = () => {
-    handleCloseMenu();
-    console.info('MARK COMPLETE', task.id);
-  };
+    handleCloseMenu()
+    console.info('MARK COMPLETE', task.id)
+  }
 
   const handleShare = () => {
-    handleCloseMenu();
-    console.info('SHARE', task.id);
-  };
+    handleCloseMenu()
+    console.info('SHARE', task.id)
+  }
 
   const handleEdit = () => {
-    handleCloseMenu();
-    console.info('EDIT', task.id);
-  };
+    handleCloseMenu()
+    console.info('EDIT', task.id)
+  }
 
   const handleDelete = () => {
-    handleCloseMenu();
-    console.info('DELETE', task.id);
-  };
+    handleCloseMenu()
+    console.info('DELETE', task.id)
+  }
 
   return (
     <>
       <Stack
-        direction="row"
-        alignItems="center"
+        direction='row'
+        alignItems='center'
         sx={{
           pl: 2,
           pr: 1,
@@ -104,8 +104,11 @@ function TaskItem({ task, checked, onChange }) {
           sx={{ flexGrow: 1, m: 0 }}
         />
 
-        <IconButton color={open ? 'inherit' : 'default'} onClick={handleOpenMenu}>
-          <Iconify icon="eva:more-vertical-fill" />
+        <IconButton
+          color={open ? 'inherit' : 'default'}
+          onClick={handleOpenMenu}
+        >
+          <Iconify icon='eva:more-vertical-fill' />
         </IconButton>
       </Stack>
 
@@ -117,31 +120,31 @@ function TaskItem({ task, checked, onChange }) {
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
         <MenuItem onClick={handleMarkComplete}>
-          <Iconify icon="eva:checkmark-circle-2-fill" sx={{ mr: 2 }} />
+          <Iconify icon='eva:checkmark-circle-2-fill' sx={{ mr: 2 }} />
           Mark Complete
         </MenuItem>
 
         <MenuItem onClick={handleEdit}>
-          <Iconify icon="solar:pen-bold" sx={{ mr: 2 }} />
+          <Iconify icon='solar:pen-bold' sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem onClick={handleShare}>
-          <Iconify icon="solar:share-bold" sx={{ mr: 2 }} />
+          <Iconify icon='solar:share-bold' sx={{ mr: 2 }} />
           Share
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
-          <Iconify icon="solar:trash-bin-trash-bold" sx={{ mr: 2 }} />
+          <Iconify icon='solar:trash-bin-trash-bold' sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>
     </>
-  );
+  )
 }
 
 TaskItem.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   task: PropTypes.object,
-};
+}

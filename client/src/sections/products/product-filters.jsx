@@ -1,22 +1,22 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Radio from '@mui/material/Radio';
-import Button from '@mui/material/Button';
-import Drawer from '@mui/material/Drawer';
-import Rating from '@mui/material/Rating';
-import Divider from '@mui/material/Divider';
-import Checkbox from '@mui/material/Checkbox';
-import FormGroup from '@mui/material/FormGroup';
-import RadioGroup from '@mui/material/RadioGroup';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import Divider from '@mui/material/Divider'
+import Drawer from '@mui/material/Drawer'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import IconButton from '@mui/material/IconButton'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import Rating from '@mui/material/Rating'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-import { ColorPicker } from 'src/components/color-utils';
+import { ColorPicker } from 'src/components/color-utils'
+import Iconify from 'src/components/iconify'
+import Scrollbar from 'src/components/scrollbar'
 
 // ----------------------------------------------------------------------
 
@@ -25,15 +25,15 @@ export const SORT_OPTIONS = [
   { value: 'newest', label: 'Newest' },
   { value: 'priceDesc', label: 'Price: High-Low' },
   { value: 'priceAsc', label: 'Price: Low-High' },
-];
-export const GENDER_OPTIONS = ['Men', 'Women', 'Kids'];
-export const CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories'];
-export const RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
+]
+export const GENDER_OPTIONS = ['Men', 'Women', 'Kids']
+export const CATEGORY_OPTIONS = ['All', 'Shose', 'Apparel', 'Accessories']
+export const RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star']
 export const PRICE_OPTIONS = [
   { value: 'below', label: 'Below $25' },
   { value: 'between', label: 'Between $25 - $75' },
   { value: 'above', label: 'Above $75' },
-];
+]
 export const COLOR_OPTIONS = [
   '#00AB55',
   '#000000',
@@ -43,49 +43,58 @@ export const COLOR_OPTIONS = [
   '#1890FF',
   '#94D82D',
   '#FFC107',
-];
+]
 
 // ----------------------------------------------------------------------
 
-export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter }) {
+export default function ProductFilters({
+  openFilter,
+  onOpenFilter,
+  onCloseFilter,
+}) {
   const renderGender = (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">Gender</Typography>
+      <Typography variant='subtitle2'>Gender</Typography>
       <FormGroup>
         {GENDER_OPTIONS.map((item) => (
           <FormControlLabel key={item} control={<Checkbox />} label={item} />
         ))}
       </FormGroup>
     </Stack>
-  );
+  )
 
   const renderCategory = (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">Category</Typography>
+      <Typography variant='subtitle2'>Category</Typography>
       <RadioGroup>
         {CATEGORY_OPTIONS.map((item) => (
-          <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+          <FormControlLabel
+            key={item}
+            value={item}
+            control={<Radio />}
+            label={item}
+          />
         ))}
       </RadioGroup>
     </Stack>
-  );
+  )
 
   const renderColors = (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">Colors</Typography>
+      <Typography variant='subtitle2'>Colors</Typography>
       <ColorPicker
-        name="colors"
+        name='colors'
         selected={[]}
         colors={COLOR_OPTIONS}
         onSelectColor={(color) => [].includes(color)}
         sx={{ maxWidth: 38 * 4 }}
       />
     </Stack>
-  );
+  )
 
   const renderPrice = (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">Price</Typography>
+      <Typography variant='subtitle2'>Price</Typography>
       <RadioGroup>
         {PRICE_OPTIONS.map((item) => (
           <FormControlLabel
@@ -97,11 +106,11 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
         ))}
       </RadioGroup>
     </Stack>
-  );
+  )
 
   const renderRating = (
     <Stack spacing={1}>
-      <Typography variant="subtitle2">Rating</Typography>
+      <Typography variant='subtitle2'>Rating</Typography>
       <RadioGroup>
         {RATING_OPTIONS.map((item, index) => (
           <FormControlLabel
@@ -110,7 +119,7 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
             control={
               <Radio
                 disableRipple
-                color="default"
+                color='default'
                 icon={<Rating readOnly value={4 - index} />}
                 checkedIcon={<Rating readOnly value={4 - index} />}
                 sx={{
@@ -118,7 +127,7 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
                 }}
               />
             }
-            label="& Up"
+            label='& Up'
             sx={{
               my: 0.5,
               borderRadius: 1,
@@ -128,21 +137,21 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
         ))}
       </RadioGroup>
     </Stack>
-  );
+  )
 
   return (
     <>
       <Button
         disableRipple
-        color="inherit"
-        endIcon={<Iconify icon="ic:round-filter-list" />}
+        color='inherit'
+        endIcon={<Iconify icon='ic:round-filter-list' />}
         onClick={onOpenFilter}
       >
         Filters&nbsp;
       </Button>
 
       <Drawer
-        anchor="right"
+        anchor='right'
         open={openFilter}
         onClose={onCloseFilter}
         PaperProps={{
@@ -150,16 +159,16 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
         }}
       >
         <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
+          direction='row'
+          alignItems='center'
+          justifyContent='space-between'
           sx={{ px: 1, py: 2 }}
         >
-          <Typography variant="h6" sx={{ ml: 1 }}>
+          <Typography variant='h6' sx={{ ml: 1 }}>
             Filters
           </Typography>
           <IconButton onClick={onCloseFilter}>
-            <Iconify icon="eva:close-fill" />
+            <Iconify icon='eva:close-fill' />
           </IconButton>
         </Stack>
 
@@ -182,22 +191,22 @@ export default function ProductFilters({ openFilter, onOpenFilter, onCloseFilter
         <Box sx={{ p: 3 }}>
           <Button
             fullWidth
-            size="large"
-            type="submit"
-            color="inherit"
-            variant="outlined"
-            startIcon={<Iconify icon="ic:round-clear-all" />}
+            size='large'
+            type='submit'
+            color='inherit'
+            variant='outlined'
+            startIcon={<Iconify icon='ic:round-clear-all' />}
           >
             Clear All
           </Button>
         </Box>
       </Drawer>
     </>
-  );
+  )
 }
 
 ProductFilters.propTypes = {
   openFilter: PropTypes.bool,
   onOpenFilter: PropTypes.func,
   onCloseFilter: PropTypes.func,
-};
+}

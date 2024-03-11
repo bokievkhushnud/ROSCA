@@ -1,15 +1,20 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
 
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from 'src/components/chart'
 
 // ----------------------------------------------------------------------
 
-export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
-  const { labels, colors, series, options } = chart;
+export default function AppWebsiteVisits({
+  title,
+  subheader,
+  chart,
+  ...other
+}) {
+  const { labels, colors, series, options } = chart
 
   const chartOptions = useChart({
     colors,
@@ -31,14 +36,14 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
       y: {
         formatter: (value) => {
           if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
+            return `${value.toFixed(0)} visits`
           }
-          return value;
+          return value
         },
       },
     },
     ...options,
-  });
+  })
 
   return (
     <Card {...other}>
@@ -46,20 +51,20 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
 
       <Box sx={{ p: 3, pb: 1 }}>
         <Chart
-          dir="ltr"
-          type="line"
+          dir='ltr'
+          type='line'
           series={series}
           options={chartOptions}
-          width="100%"
+          width='100%'
           height={364}
         />
       </Box>
     </Card>
-  );
+  )
 }
 
 AppWebsiteVisits.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,
-};
+}

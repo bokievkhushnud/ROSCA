@@ -1,22 +1,22 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import Link from '@mui/material/Link'
+import Stack from '@mui/material/Stack'
+import Typography from '@mui/material/Typography'
 
-import { fCurrency } from 'src/utils/format-number';
+import { fCurrency } from 'src/utils/format-number'
 
-import Label from 'src/components/label';
-import { ColorPreview } from 'src/components/color-utils';
+import { ColorPreview } from 'src/components/color-utils'
+import Label from 'src/components/label'
 
 // ----------------------------------------------------------------------
 
 export default function ShopProductCard({ product }) {
   const renderStatus = (
     <Label
-      variant="filled"
+      variant='filled'
       color={(product.status === 'sale' && 'error') || 'info'}
       sx={{
         zIndex: 9,
@@ -28,11 +28,11 @@ export default function ShopProductCard({ product }) {
     >
       {product.status}
     </Label>
-  );
+  )
 
   const renderImg = (
     <Box
-      component="img"
+      component='img'
       alt={product.name}
       src={product.cover}
       sx={{
@@ -43,13 +43,13 @@ export default function ShopProductCard({ product }) {
         position: 'absolute',
       }}
     />
-  );
+  )
 
   const renderPrice = (
-    <Typography variant="subtitle1">
+    <Typography variant='subtitle1'>
       <Typography
-        component="span"
-        variant="body1"
+        component='span'
+        variant='body1'
         sx={{
           color: 'text.disabled',
           textDecoration: 'line-through',
@@ -60,7 +60,7 @@ export default function ShopProductCard({ product }) {
       &nbsp;
       {fCurrency(product.price)}
     </Typography>
-  );
+  )
 
   return (
     <Card>
@@ -71,19 +71,23 @@ export default function ShopProductCard({ product }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" variant="subtitle2" noWrap>
+        <Link color='inherit' underline='hover' variant='subtitle2' noWrap>
           {product.name}
         </Link>
 
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
+        <Stack
+          direction='row'
+          alignItems='center'
+          justifyContent='space-between'
+        >
           <ColorPreview colors={product.colors} />
           {renderPrice}
         </Stack>
       </Stack>
     </Card>
-  );
+  )
 }
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
-};
+}

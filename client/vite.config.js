@@ -1,7 +1,8 @@
-import path from 'path';
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react-swc';
-import checker from 'vite-plugin-checker';
+// biome-ignore lint/style/useNodejsImportProtocol: <explanation>
+import path from 'path'
+import react from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite'
+import checker from 'vite-plugin-checker'
 
 // ----------------------------------------------------------------------
 
@@ -9,8 +10,8 @@ export default defineConfig({
   plugins: [
     react(),
     checker({
-      eslint: {
-        lintCommand: 'eslint "./src/**/*.{js,jsx,ts,tsx}"',
+      biome: {
+        lintCommand: 'biome lint',
       },
     }),
   ],
@@ -32,4 +33,4 @@ export default defineConfig({
   preview: {
     port: 3030,
   },
-});
+})

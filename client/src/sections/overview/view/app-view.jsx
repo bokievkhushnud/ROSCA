@@ -1,27 +1,27 @@
-import { faker } from '@faker-js/faker';
+import { faker } from '@faker-js/faker'
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
+import Grid from '@mui/material/Unstable_Grid2'
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
 
-import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
-import AppCurrentVisits from '../app-current-visits';
-import AppWebsiteVisits from '../app-website-visits';
-import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
+import AppConversionRates from '../app-conversion-rates'
+import AppCurrentSubject from '../app-current-subject'
+import AppCurrentVisits from '../app-current-visits'
+import AppNewsUpdate from '../app-news-update'
+import AppOrderTimeline from '../app-order-timeline'
+import AppTasks from '../app-tasks'
+import AppTrafficBySite from '../app-traffic-by-site'
+import AppWebsiteVisits from '../app-website-visits'
+import AppWidgetSummary from '../app-widget-summary'
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
   return (
-    <Container maxWidth="xl">
-      <Typography variant="h4" sx={{ mb: 5 }}>
+    <Container maxWidth='xl'>
+      <Typography variant='h4' sx={{ mb: 5 }}>
         Hi, Welcome back 👋
       </Typography>
 
@@ -30,37 +30,41 @@ export default function AppView() {
       <Grid container spacing={1}>
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Interest Earned"
+            title='Interest Earned'
             total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+            color='success'
+            icon={<img alt='icon' src='/assets/icons/glass/ic_glass_bag.png' />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Total Shares"
+            title='Total Shares'
             total={1352831}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            color='info'
+            icon={
+              <img alt='icon' src='/assets/icons/glass/ic_glass_users.png' />
+            }
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Card Balance"
+            title='Card Balance'
             total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            color='warning'
+            icon={<img alt='icon' src='/assets/icons/glass/ic_glass_buy.png' />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Fines"
+            title='Fines'
             total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            color='error'
+            icon={
+              <img alt='icon' src='/assets/icons/glass/ic_glass_message.png' />
+            }
           />
         </Grid>
 
@@ -68,8 +72,8 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
+            title='Website Visits'
+            subheader='(+43%) than last year'
             chart={{
               labels: [
                 '01/01/2003',
@@ -110,7 +114,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentVisits
-            title="Current Visits"
+            title='Current Visits'
             chart={{
               series: [
                 { label: 'America', value: 4344 },
@@ -124,8 +128,8 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
+            title='Conversion Rates'
+            subheader='(+43%) than last year'
             chart={{
               series: [
                 { label: 'Italy', value: 400 },
@@ -145,9 +149,16 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppCurrentSubject
-            title="Current Subject"
+            title='Current Subject'
             chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
+              categories: [
+                'English',
+                'History',
+                'Physics',
+                'Geography',
+                'Chinese',
+                'Math',
+              ],
               series: [
                 { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
                 { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
@@ -159,7 +170,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppNewsUpdate
-            title="News Update"
+            title='News Update'
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: faker.person.jobTitle(),
@@ -172,7 +183,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppOrderTimeline
-            title="Order Timeline"
+            title='Order Timeline'
             list={[...Array(5)].map((_, index) => ({
               id: faker.string.uuid(),
               title: [
@@ -190,27 +201,43 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={4}>
           <AppTrafficBySite
-            title="Traffic by Site"
+            title='Traffic by Site'
             list={[
               {
                 name: 'FaceBook',
                 value: 323234,
-                icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
+                icon: (
+                  <Iconify
+                    icon='eva:facebook-fill'
+                    color='#1877F2'
+                    width={32}
+                  />
+                ),
               },
               {
                 name: 'Google',
                 value: 341212,
-                icon: <Iconify icon="eva:google-fill" color="#DF3E30" width={32} />,
+                icon: (
+                  <Iconify icon='eva:google-fill' color='#DF3E30' width={32} />
+                ),
               },
               {
                 name: 'Linkedin',
                 value: 411213,
-                icon: <Iconify icon="eva:linkedin-fill" color="#006097" width={32} />,
+                icon: (
+                  <Iconify
+                    icon='eva:linkedin-fill'
+                    color='#006097'
+                    width={32}
+                  />
+                ),
               },
               {
                 name: 'Twitter',
                 value: 443232,
-                icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
+                icon: (
+                  <Iconify icon='eva:twitter-fill' color='#1C9CEA' width={32} />
+                ),
               },
             ]}
           />
@@ -218,7 +245,7 @@ export default function AppView() {
 
         <Grid xs={12} md={6} lg={8}>
           <AppTasks
-            title="Tasks"
+            title='Tasks'
             list={[
               { id: '1', name: 'Create FireStone Logo' },
               { id: '2', name: 'Add SCSS and JS files if required' },
@@ -230,5 +257,5 @@ export default function AppView() {
         </Grid>
       </Grid>
     </Container>
-  );
+  )
 }

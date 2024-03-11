@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import { styled, useTheme } from '@mui/material/styles';
+import Card from '@mui/material/Card'
+import CardHeader from '@mui/material/CardHeader'
+import { styled, useTheme } from '@mui/material/styles'
 
-import Chart, { useChart } from 'src/components/chart';
+import Chart, { useChart } from 'src/components/chart'
 
 // ----------------------------------------------------------------------
 
-const CHART_HEIGHT = 400;
+const CHART_HEIGHT = 400
 
-const LEGEND_HEIGHT = 72;
+const LEGEND_HEIGHT = 72
 
 const StyledChart = styled(Chart)(({ theme }) => ({
   height: CHART_HEIGHT,
@@ -22,14 +22,19 @@ const StyledChart = styled(Chart)(({ theme }) => ({
     borderTop: `dashed 1px ${theme.palette.divider}`,
     top: `calc(${CHART_HEIGHT - LEGEND_HEIGHT}px) !important`,
   },
-}));
+}))
 
 // ----------------------------------------------------------------------
 
-export default function AppCurrentSubject({ title, subheader, chart, ...other }) {
-  const theme = useTheme();
+export default function AppCurrentSubject({
+  title,
+  subheader,
+  chart,
+  ...other
+}) {
+  const theme = useTheme()
 
-  const { series, colors, categories, options } = chart;
+  const { series, colors, categories, options } = chart
 
   const chartOptions = useChart({
     colors,
@@ -53,26 +58,26 @@ export default function AppCurrentSubject({ title, subheader, chart, ...other })
       },
     },
     ...options,
-  });
+  })
 
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} sx={{ mb: 5 }} />
 
       <StyledChart
-        dir="ltr"
-        type="radar"
+        dir='ltr'
+        type='radar'
         series={series}
         options={chartOptions}
-        width="100%"
+        width='100%'
         height={340}
       />
     </Card>
-  );
+  )
 }
 
 AppCurrentSubject.propTypes = {
   chart: PropTypes.object,
   subheader: PropTypes.string,
   title: PropTypes.string,
-};
+}

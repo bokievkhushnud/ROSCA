@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
+import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete'
+import InputAdornment from '@mui/material/InputAdornment'
+import TextField from '@mui/material/TextField'
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
 
 // ----------------------------------------------------------------------
 
 PostSearch.propTypes = {
   posts: PropTypes.array.isRequired,
-};
+}
 
 export default function PostSearch({ posts }) {
   return (
@@ -34,13 +34,13 @@ export default function PostSearch({ posts }) {
       renderInput={(params) => (
         <TextField
           {...params}
-          placeholder="Search post..."
+          placeholder='Search post...'
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position='start'>
                 <Iconify
-                  icon="eva:search-fill"
+                  icon='eva:search-fill'
                   sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                 />
               </InputAdornment>
@@ -49,5 +49,5 @@ export default function PostSearch({ posts }) {
         />
       )}
     />
-  );
+  )
 }

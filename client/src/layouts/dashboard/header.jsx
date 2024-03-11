@@ -1,36 +1,36 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import { useTheme } from '@mui/material/styles';
-import IconButton from '@mui/material/IconButton';
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import IconButton from '@mui/material/IconButton'
+import Stack from '@mui/material/Stack'
+import Toolbar from '@mui/material/Toolbar'
+import { useTheme } from '@mui/material/styles'
 
-import { useResponsive } from 'src/hooks/use-responsive';
+import { useResponsive } from 'src/hooks/use-responsive'
 
-import { bgBlur } from 'src/theme/css';
+import { bgBlur } from 'src/theme/css'
 
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
 
-import Searchbar from './common/searchbar';
-import { NAV, HEADER } from './config-layout';
-import AccountPopover from './common/account-popover';
-import LanguagePopover from './common/language-popover';
-import NotificationsPopover from './common/notifications-popover';
+import AccountPopover from './common/account-popover'
+import LanguagePopover from './common/language-popover'
+import NotificationsPopover from './common/notifications-popover'
+import Searchbar from './common/searchbar'
+import { HEADER, NAV } from './config-layout'
 
 // ----------------------------------------------------------------------
 
 export default function Header({ onOpenNav }) {
-  const theme = useTheme();
+  const theme = useTheme()
 
-  const lgUp = useResponsive('up', 'lg');
+  const lgUp = useResponsive('up', 'lg')
 
   const renderContent = (
     <>
       {!lgUp && (
         <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
-          <Iconify icon="eva:menu-2-fill" />
+          <Iconify icon='eva:menu-2-fill' />
         </IconButton>
       )}
 
@@ -38,13 +38,13 @@ export default function Header({ onOpenNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack direction='row' alignItems='center' spacing={1}>
         <LanguagePopover />
         <NotificationsPopover />
         <AccountPopover />
       </Stack>
     </>
-  );
+  )
 
   return (
     <AppBar
@@ -73,9 +73,9 @@ export default function Header({ onOpenNav }) {
         {renderContent}
       </Toolbar>
     </AppBar>
-  );
+  )
 }
 
 Header.propTypes = {
   onOpenNav: PropTypes.func,
-};
+}

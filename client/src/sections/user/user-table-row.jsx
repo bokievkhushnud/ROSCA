@@ -1,30 +1,30 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { format, formatDistanceToNow, isBefore, subDays } from 'date-fns';
+import { format, formatDistanceToNow, isBefore, subDays } from 'date-fns'
+import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Popover from '@mui/material/Popover';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
-import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar'
+import Checkbox from '@mui/material/Checkbox'
+import IconButton from '@mui/material/IconButton'
+import MenuItem from '@mui/material/MenuItem'
+import Popover from '@mui/material/Popover'
+import Stack from '@mui/material/Stack'
+import TableCell from '@mui/material/TableCell'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
 
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+import Iconify from 'src/components/iconify'
+import Label from 'src/components/label'
 
 // ----------------------------------------------------------------------
 
 function formatDate(dateString) {
-  const date = new Date(dateString);
-  const now = new Date();
+  const date = new Date(dateString)
+  const now = new Date()
 
   if (isBefore(subDays(now, 3), date)) {
-    return `${formatDistanceToNow(date)}`;
+    return `${formatDistanceToNow(date)}`
   }
-  return format(date, 'MMM d, yyyy');
+  return format(date, 'MMM d, yyyy')
 }
 
 export default function UserTableRow({
@@ -37,27 +37,27 @@ export default function UserTableRow({
   status,
   handleClick,
 }) {
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(null)
 
   const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+    setOpen(event.currentTarget)
+  }
 
   const handleCloseMenu = () => {
-    setOpen(null);
-  };
+    setOpen(null)
+  }
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        <TableCell padding="checkbox">
+      <TableRow hover tabIndex={-1} role='checkbox' selected={selected}>
+        <TableCell padding='checkbox'>
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell>
 
-        <TableCell component="th" scope="row" padding="none">
-          <Stack direction="row" alignItems="center" spacing={2}>
+        <TableCell component='th' scope='row' padding='none'>
+          <Stack direction='row' alignItems='center' spacing={2}>
             <Avatar alt={name} src={avatarUrl} />
-            <Typography variant="subtitle2" noWrap>
+            <Typography variant='subtitle2' noWrap>
               {name}
             </Typography>
           </Stack>
@@ -67,15 +67,17 @@ export default function UserTableRow({
 
         <TableCell>{role}</TableCell>
 
-        <TableCell align="center">{formatDate(online)}</TableCell>
+        <TableCell align='center'>{formatDate(online)}</TableCell>
 
         <TableCell>
-          <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
+          <Label color={(status === 'banned' && 'error') || 'success'}>
+            {status}
+          </Label>
         </TableCell>
 
-        <TableCell align="right">
+        <TableCell align='right'>
           <IconButton onClick={handleOpenMenu}>
-            <Iconify icon="eva:more-vertical-fill" />
+            <Iconify icon='eva:more-vertical-fill' />
           </IconButton>
         </TableCell>
       </TableRow>
@@ -91,17 +93,17 @@ export default function UserTableRow({
         }}
       >
         <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+          <Iconify icon='eva:edit-fill' sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
         <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+          <Iconify icon='eva:trash-2-outline' sx={{ mr: 2 }} />
           Delete
         </MenuItem>
       </Popover>
     </>
-  );
+  )
 }
 
 UserTableRow.propTypes = {
@@ -113,4 +115,4 @@ UserTableRow.propTypes = {
   role: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
-};
+}
