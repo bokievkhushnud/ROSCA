@@ -7,6 +7,6 @@ export interface UserFormData {
   firstName: string;
   lastName: string;
   phone: string;
-    role: UserRole;
-    status: UserStatus;
+  role: UserRole;
+  status: UserStatus;
   }

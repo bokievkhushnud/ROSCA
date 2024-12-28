@@ -3,7 +3,9 @@ import { useState } from "react";
 import type { User } from "@prisma/client";
 import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import UserForm from "@/components/forms/user-form";
+import type { UserFormData } from "@/types/users";
 import Modal from "@/components/ui/modal";
+
 interface UserTableProps {
   users: Partial<User>[];
 }
@@ -30,8 +32,18 @@ export default function UserTable({ users }: UserTableProps) {
     startIndex + itemsPerPage
   );
 
+  const handleSubmit = (data: UserFormData) => {
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
+        <section className="bg-white rounded-lg shadow-sm p-6">
+        <div className="mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">User Management</h2>
+        </div>
+
+      <div className="space-y-4">
       <div className="flex justify-between items-center">
         <div className="relative">
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -52,14 +64,16 @@ export default function UserTable({ users }: UserTableProps) {
           Add User
         </button>
       </div>
-
-      <div className="bg-white rounded-lg shadow overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      {users.length > 0 ? (
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
             <tr>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th> */}
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -73,6 +87,7 @@ export default function UserTable({ users }: UserTableProps) {
                     </div>
                   </div>
                 </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.phone}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.role}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
@@ -82,11 +97,15 @@ export default function UserTable({ users }: UserTableProps) {
                     {user.status}
                   </span>
                 </td>
+                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.createdAt ? user.createdAt.toLocaleDateString() : 'N/A'}</td> */}
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+          </table>
+        </div>
+      ) : (
+        <div className="text-center text-gray-500">No users found</div>
+      )}
 
       {/* Pagination */}
       <div className="flex justify-between items-center">
@@ -114,8 +133,10 @@ export default function UserTable({ users }: UserTableProps) {
 
       {/* Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New User">
-        <UserForm />
-      </Modal>
+          <UserForm onSubmit={handleSubmit} />
+        </Modal>
+      </div>
+      </section>
     </div>
   );
 } 

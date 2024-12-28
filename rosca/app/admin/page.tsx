@@ -1,19 +1,8 @@
-"use client";
 import UserTable from "@/components/tables/user-table";
 import { getUsers } from "@/app/actions";
-import { useEffect, useState } from "react";
-import type { User } from "@prisma/client";
 
-export default function AdminPage() {
-  const [users, setUsers] = useState<Partial<User>[]>([]);
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      const data = await getUsers();
-      setUsers(data);
-    };
-    loadUsers();
-  }, []);
+export default async function AdminPage() {
+  const users = await getUsers()
   
   return (
     <div className="min-h-screen bg-gray-50 p-6">
