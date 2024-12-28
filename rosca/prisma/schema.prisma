@@ -20,6 +20,31 @@ enum UserStatus {
   SUSPENDED
 }
 
+enum LoanStatus {
+  PENDING
+  ACTIVE
+  PAID
+  REJECTED
+}
+
+enum ContributionStatus {
+  PENDING
+  RECEIVED
+  CANCELLED
+}
+
+enum ContributionType {
+  CONTRIBUTION
+  LOAN_REPAYMENT
+  FINE
+  OTHER
+}
+
+enum TransactionType {
+  IN
+  OUT
+}
+
 // Models
 model User {
   id         Int       @id @default(autoincrement())
@@ -53,4 +78,34 @@ model UserProfile {
   user      User   @relation(fields: [userId], references: [id])
 }
 
-// If you want more models, e.g. Transactions, Loans, etc., add them here
+model Loan {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  interestRate Float
+  status    LoanStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    Int
+}
+
+model Contribution {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  status    ContributionStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contributionType      ContributionType @default(CONTRIBUTION)
+
+  userId    Int
+}
+
+model Transaction {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contributionId Int
+  loanId Int
+  transactionType TransactionType @default(IN)
+}

@@ -9,6 +9,9 @@ export default async function AdminPage() {
       <div className="max-w-7xl mx-auto">
         <UserTable users={users} />
       </div>
+      <div className="mt-6">
+        {/* Contributions */}
+      </div>
     </div>
   );
 }
