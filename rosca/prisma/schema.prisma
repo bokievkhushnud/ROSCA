@@ -1,0 +1,56 @@
+datasource db {
+  provider = "postgresql" // or "sqlite", "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  USER
+  SUPERADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+// Models
+model User {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  email      String    @unique
+  password   String
+
+  firstName  String?
+  lastName   String?
+  phone      String?
+
+  role       UserRole   @default(USER)
+  status     UserStatus @default(ACTIVE)
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  profile    UserProfile?
+
+  // Example of how you'd link to transactions or another table
+  // transactions Transactions[]
+}
+
+// Extended user details
+model UserProfile {
+  id        Int    @id @default(autoincrement())
+  bio       String?
+  avatarUrl String?
+
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+// If you want more models, e.g. Transactions, Loans, etc., add them here

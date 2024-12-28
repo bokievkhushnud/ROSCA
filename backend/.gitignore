@@ -1,7 +1,0 @@
-/env
-/rosca/base/__pycache__/
-/rosca/rosca/__pycache__/
-
-# ROSCA
-/rosca/rosca/__init__.py
-.env
