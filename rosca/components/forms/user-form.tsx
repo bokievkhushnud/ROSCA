@@ -15,7 +15,7 @@ export default function UserForm({ initialData }: UserFormProps) {
     <form action={createUser} className="space-y-4">
       {/* Username */}
       <div className="flex flex-col">
-        <label htmlFor="username" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="username" className="mb-1  font-medium">
           Username
         </label>
         <input
@@ -29,7 +29,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Email */}
       <div className="flex flex-col">
-        <label htmlFor="email" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="email" className="mb-1 font-medium">
           Email
         </label>
         <input
@@ -43,7 +43,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Password */}
       <div className="flex flex-col">
-        <label htmlFor="password" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="password" className="mb-1  font-medium">
           Password
         </label>
         <input
@@ -57,7 +57,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* First Name */}
       <div className="flex flex-col">
-        <label htmlFor="firstName" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="firstName" className="mb-1  font-medium">
           First Name
         </label>
         <input
@@ -70,7 +70,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Last Name */}
       <div className="flex flex-col">
-        <label htmlFor="lastName" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="lastName" className="mb-1  font-medium">
           Last Name
         </label>
         <input
@@ -83,7 +83,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Phone */}
       <div className="flex flex-col">
-        <label htmlFor="phone" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="phone" className="mb-1  font-medium">
           Phone
         </label>
         <input
@@ -96,7 +96,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Role */}
       <div className="flex flex-col">
-        <label htmlFor="role" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="role" className="mb-1  font-medium">
           Role
         </label>
         <select
@@ -112,7 +112,7 @@ export default function UserForm({ initialData }: UserFormProps) {
 
       {/* Status */}
       <div className="flex flex-col">
-        <label htmlFor="status" className="mb-1 text-gray-600 font-medium">
+        <label htmlFor="status" className="mb-1  font-medium">
           Status
         </label>
         <select

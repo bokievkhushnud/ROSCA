@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import type { UserFormData } from "@/types/users";
 import type { UserRole, UserStatus } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function createUser(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
@@ -19,9 +20,15 @@ export async function createUser(formData: FormData) {
     status: String(rawData.status) as UserStatus,
   };
   const hashedPassword = await bcrypt.hash(data.password, 10);
-  return await prisma.user.create({
+  const result = await prisma.user.create({
     data: { ...data, password: hashedPassword },
   });
+
+  if (result) {
+    revalidatePath("/admin");
+    return result;
+  }
+  return null;
 }
 
 export async function getUsers() {
