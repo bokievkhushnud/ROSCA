@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import type { Contribution, User } from "@prisma/client";
+import type { Contribution, Loan, User } from "@prisma/client";
 import { PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import ContributionForm from "@/components/forms/contribution-form";
 import type { ContributionFormData } from "@/types/contributions";
@@ -9,9 +9,10 @@ import Modal from "@/components/ui/modal";
 interface ContributionTableProps {
   contributions: Partial<Contribution>[];
   users: Partial<User>[];
+  loans: Partial<Loan>[];
 }
 
-export default function ContributionTable({ contributions, users }: ContributionTableProps) {
+export default function ContributionTable({ contributions, users, loans }: ContributionTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -140,7 +141,7 @@ export default function ContributionTable({ contributions, users }: Contribution
 
         {/* Modal */}
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Add New Contribution">
-          <ContributionForm onSubmit={handleSubmit} users={users} />
+          <ContributionForm onSubmit={handleSubmit} users={users} loans={loans} />
         </Modal>
       </section>
     </div>

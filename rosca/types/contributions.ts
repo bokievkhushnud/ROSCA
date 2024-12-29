@@ -6,4 +6,5 @@ export interface ContributionFormData {
   status: ContributionStatus;
   contributionType: ContributionType;
   description: string;
+  loanId?: number;  // Optional loan ID for loan repayments
 } 

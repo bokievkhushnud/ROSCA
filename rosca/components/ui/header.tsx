@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
+const links = [
+  { href: '/', label: 'Dashboard' },
+  { href: '/admin', label: 'Admin' },
+]
+
 export default function Header() {
   return (
     <header className="border-b">
@@ -21,26 +26,13 @@ export default function Header() {
 
         <nav>
           <ul className="flex gap-6">
-            <li>
-              <Link href="/" className="hover:text-gray-600">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="/dashboard" className="hover:text-gray-600">
-                Dashboard
-              </Link>
-            </li>
-            <li>
-              <Link href="/transactions" className="hover:text-gray-600">
-                Transactions
-              </Link>
-            </li>
-            <li>
-              <Link href="/profile" className="hover:text-gray-600">
-                Profile
-              </Link>
-            </li>
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-gray-600">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </div>
