@@ -78,6 +78,13 @@ async function getStatistics() {
 		orderBy: {
 			createdAt: "asc",
 		},
+	}).then((data) => {
+		return data.map((item) => ({
+			createdAt: item.createdAt,
+			_sum: {
+				amount: item._sum.amount || 0,
+			},
+		}));
 	});
 
 	// Get loan distribution data
@@ -86,6 +93,13 @@ async function getStatistics() {
 		_sum: {
 			amount: true,
 		},
+	}).then((data) => {
+		return data.map((item) => ({
+			status: item.status,
+			_sum: {
+				amount: item._sum.amount || 0,
+			},
+		}));
 	});
 
 	return {
