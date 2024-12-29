@@ -66,6 +66,9 @@ model User {
 
   // Example of how you'd link to transactions or another table
   // transactions Transactions[]
+  loans      Loan[]
+  contributions Contribution[]
+  transactions Transaction[]
 }
 
 // Extended user details
@@ -87,6 +90,7 @@ model Loan {
   updatedAt DateTime @updatedAt
 
   userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 model Contribution {
@@ -98,6 +102,7 @@ model Contribution {
   contributionType      ContributionType @default(CONTRIBUTION)
 
   userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
 
 model Transaction {
@@ -108,4 +113,7 @@ model Transaction {
   contributionId Int
   loanId Int
   transactionType TransactionType @default(IN)
+
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
 }
