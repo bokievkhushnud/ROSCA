@@ -4,9 +4,9 @@ import bcrypt from "bcryptjs";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 import type { UserFormData } from "@/types/users";
-import type { UserRole, UserStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import type { LoanFormData } from "@/types/loans";
+import type { ContributionFormData } from "@/types/contributions";
 
 export async function createUser(data: UserFormData) {
   const hashedPassword = await bcrypt.hash(data.password, 10);
@@ -66,4 +66,31 @@ export async function getLoans() {
       },
     },
   });
+}
+
+
+export async function getContributions() {
+  return await prisma.contribution.findMany({
+    select: {
+      id: true,
+      amount: true,
+      userId: true,
+      status: true,
+      contributionType: true,
+      user: {
+        select: {
+          firstName: true,
+          lastName: true,
+        },
+      },
+    },
+  });
+}
+
+export async function createContribution(data: ContributionFormData) {
+  const contribution = await prisma.contribution.create({
+    data: { ...data },
+  });
+  revalidatePath("/admin");
+  return contribution;
 }

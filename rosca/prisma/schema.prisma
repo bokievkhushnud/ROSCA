@@ -88,9 +88,11 @@ model Loan {
   status    LoanStatus @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  description String?
   userId    Int
   user      User   @relation(fields: [userId], references: [id])
+  contributions Contribution[]
+  transactions Transaction[]
 }
 
 model Contribution {
@@ -100,9 +102,15 @@ model Contribution {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   contributionType      ContributionType @default(CONTRIBUTION)
+  description String?
+
+  loanId Int?
+  loan      Loan?   @relation(fields: [loanId], references: [id])
 
   userId    Int
   user      User   @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
 }
 
 model Transaction {
@@ -110,9 +118,13 @@ model Transaction {
   amount    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  contributionId Int
-  loanId Int
   transactionType TransactionType @default(IN)
+
+  contributionId Int
+  contribution      Contribution   @relation(fields: [contributionId], references: [id])
+
+  loanId Int
+  loan      Loan   @relation(fields: [loanId], references: [id])
 
   userId    Int
   user      User   @relation(fields: [userId], references: [id])
