@@ -36,6 +36,7 @@ enum ContributionStatus {
 enum ContributionType {
   CONTRIBUTION
   LOAN_REPAYMENT
+  VOLUNTARY
   FINE
   OTHER
 }
