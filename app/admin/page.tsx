@@ -22,13 +22,13 @@ export default async function AdminPage() {
 			<div className="mt-6">
 				<LoanTable loans={loans} users={users} />
 			</div>
-			<div className="mt-6">
+			{/* <div className="mt-6">
 				<ContributionTable
 					contributions={contributions}
 					users={users}
 					loans={loans}
 				/>
-			</div>
+			</div> */}
 		</div>
 	);
 }
