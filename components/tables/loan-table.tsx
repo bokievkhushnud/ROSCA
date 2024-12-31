@@ -6,8 +6,15 @@ import LoanForm from "../forms/loan-form";
 import type { LoanFormData } from "@/types/loans";
 import Modal from "@/components/ui/modal";
 
+interface LoanWithUser extends Partial<Loan> {
+	user?: {
+		firstName: string | null;
+		lastName: string | null;
+	};
+}
+
 interface LoanTableProps {
-	loans: Partial<Loan>[];
+	loans: LoanWithUser[];
 	users: Partial<User>[];
 }
 
