@@ -6,8 +6,15 @@ import ContributionForm from "@/components/forms/contribution-form";
 import type { ContributionFormData } from "@/types/contributions";
 import Modal from "@/components/ui/modal";
 
+interface ContributionWithUser extends Partial<Contribution> {
+	user?: {
+	  firstName: string | null;
+	  lastName: string | null;
+	};
+  }
+
 interface ContributionTableProps {
-	contributions: Partial<Contribution>[];
+	contributions: ContributionWithUser[];
 	users: Partial<User>[];
 	loans: Partial<Loan>[];
 }
