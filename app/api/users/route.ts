@@ -1,8 +1,8 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const { auth0Id, email, username, firstName, lastName, phone } = await req.json();
     if (!auth0Id || !email) {
