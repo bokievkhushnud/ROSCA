@@ -2,7 +2,6 @@
 import type { UserFormData } from "@/types/users";
 import type { UserRole, UserStatus } from "@prisma/client";
 import { useState } from "react";
-import { createUser } from "@/app/actions";
 
 interface UserFormProps {
 	initialData?: Partial<UserFormData>;
@@ -26,7 +25,6 @@ export default function UserForm({ initialData, onSubmit }: UserFormProps) {
 			role: String(formData.get("role")) as UserRole,
 			status: String(formData.get("status")) as UserStatus,
 		};
-		await createUser(data);
 		onSubmit(data);
 		setIsLoading(false);
 	};
