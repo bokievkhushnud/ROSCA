@@ -10,8 +10,11 @@ interface UserFormProps {
 }
 
 export default function UserForm({ initialData, onSubmit }: UserFormProps) {
+	const [isLoading, setIsLoading] = useState(false);
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		setIsLoading(true);
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data: UserFormData = {
 			username: String(formData.get("username")),
@@ -25,6 +28,7 @@ export default function UserForm({ initialData, onSubmit }: UserFormProps) {
 		};
 		await createUser(data);
 		onSubmit(data);
+		setIsLoading(false);
 	};
 
 	return (
@@ -181,8 +185,9 @@ export default function UserForm({ initialData, onSubmit }: UserFormProps) {
 					type="submit"
 					className="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 
           focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors"
+					disabled={isLoading}
 				>
-					Add User
+					{isLoading ? "Adding User..." : "Add User"}
 				</button>
 			</div>
 		</form>

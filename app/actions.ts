@@ -13,12 +13,10 @@ export async function createUser(data: UserFormData) {
 	const result = await prisma.user.create({
 		data: { ...data, password: hashedPassword },
 	});
+	
 
-	if (result) {
-		revalidatePath("/admin");
-		return result;
-	}
-	return null;
+	revalidatePath("/admin");
+	return result;
 }
 
 export async function getUsers() {
