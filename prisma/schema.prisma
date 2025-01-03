@@ -1,0 +1,131 @@
+datasource db {
+  provider = "postgresql" // or "sqlite", "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Enums
+enum UserRole {
+  ADMIN
+  USER
+  SUPERADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+enum LoanStatus {
+  PENDING
+  ACTIVE
+  PAID
+  REJECTED
+}
+
+enum ContributionStatus {
+  PENDING
+  RECEIVED
+  CANCELLED
+}
+
+enum ContributionType {
+  CONTRIBUTION
+  LOAN_REPAYMENT
+  VOLUNTARY
+  FINE
+  OTHER
+}
+
+enum TransactionType {
+  IN
+  OUT
+}
+
+// Models
+model User {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique
+  email      String    @unique
+  auth0Id    String    @unique
+  firstName  String?
+  lastName   String?
+  phone      String?
+
+  role       UserRole   @default(USER)
+  status     UserStatus @default(ACTIVE)
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+
+  profile    UserProfile?
+
+  // Example of how you'd link to transactions or another table
+  // transactions Transactions[]
+  loans      Loan[]
+  contributions Contribution[]
+  transactions Transaction[]
+}
+
+// Extended user details
+model UserProfile {
+  id        Int    @id @default(autoincrement())
+  bio       String?
+  avatarUrl String?
+
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
+}
+
+model Loan {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  interestRate Float
+  status    LoanStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  description String?
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+  contributions Contribution[]
+  transactions Transaction[]
+}
+
+model Contribution {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  status    ContributionStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contributionType      ContributionType @default(CONTRIBUTION)
+  description String?
+
+  loanId Int?
+  loan      Loan?   @relation(fields: [loanId], references: [id])
+
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  transactionType TransactionType @default(IN)
+
+  contributionId Int
+  contribution      Contribution   @relation(fields: [contributionId], references: [id])
+
+  loanId Int
+  loan      Loan   @relation(fields: [loanId], references: [id])
+
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+}
