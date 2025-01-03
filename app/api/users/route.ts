@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     // Check if a user with this sub already exists in DB
     let user = await prisma.user.findUnique({
-      where: { auth0Id: auth0Id },
+      where: { email: email },
     });
 
     if (!user) {
