@@ -41,3 +41,9 @@ export async function GET(req, res) {
   const users = await prisma.user.findMany();
   return NextResponse.json( users , { status: 200 });
 }
+
+export async function DELETE(req, res) {
+  const { id } = await req.json();
+  await prisma.user.delete({ where: { id: id } });
+  return NextResponse.json({ success: true }, { status: 200 });
+}
