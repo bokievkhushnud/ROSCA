@@ -1,6 +1,6 @@
 // components/common/table.js
 
-const Table = ({ items, headers, onDelete, onEdit, onAdd, title }) => {
+const Table = ({ items, headers, onDelete, onEdit, onAdd, title, isDeleting }) => {
     return (
       <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200">
         {/* Table Header with Add Button */}
@@ -105,6 +105,7 @@ const Table = ({ items, headers, onDelete, onEdit, onAdd, title }) => {
                           </button>
                         )}
                         {onDelete && (
+                            isDeleting ? <div>Deleting...</div> :
                           <button
                             type="button"
                             onClick={() => onDelete(item)}
