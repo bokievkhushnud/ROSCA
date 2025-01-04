@@ -36,3 +36,8 @@ export async function POST(req, res) {
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
+
+export async function GET(req, res) {
+  const users = await prisma.user.findMany();
+  return NextResponse.json( users , { status: 200 });
+}

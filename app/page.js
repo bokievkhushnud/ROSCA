@@ -1,3 +1,5 @@
+'use client'
+
 import StatsCard from "@/components/common/statsCard";
 import Graph from "@/components/common/graph";
 import TransactionsList from "@/components/common/transactionList";

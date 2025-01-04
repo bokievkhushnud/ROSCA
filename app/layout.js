@@ -1,3 +1,4 @@
+
 import { Inter } from "next/font/google";
 import Header from "@/components/ui/header";
 import "./globals.css";
@@ -13,10 +14,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<UserProvider>
-				<body className={`${inter.className} min-h-screen bg-gray-50`}>
-					<div className="flex flex-col min-h-screen">
-						<Header />
+				<UserProvider>
+					<body className={`${inter.className} min-h-screen bg-gray-50`}>
+						<div className="flex flex-col min-h-screen">
+							<Header />
 						<main className="flex-1">
 							<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 								{children}
@@ -30,8 +31,8 @@ export default function RootLayout({ children }) {
 							</div>
 						</footer>
 					</div>
-				</body>
-			</UserProvider>
+					</body>
+				</UserProvider>
 		</html>
 	);
 }
