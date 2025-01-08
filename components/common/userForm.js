@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PhoneInput from "react-phone-input-2";
