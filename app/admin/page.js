@@ -27,7 +27,7 @@ export default function AdminPage() {
  
 	return (
 		<PageContent title="Admin Page">
-      {isUsersLoading ? <TableSkeleton headers={headers} /> : <UsersTable users={usersData} />}
+      {isUsersLoading ? <TableSkeleton /> : <UsersTable users={usersData} />}
 			<Table items={loans} headers={headers} onEdit={() => {}} onDelete={() => {}} onAdd={() => {}} title="Loans" />
 			<Table items={contributions} headers={headers} onEdit={() => {}} onDelete={() => {}} onAdd={() => {}} title="Contributions" />
 		</PageContent>
