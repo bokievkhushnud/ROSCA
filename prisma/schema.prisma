@@ -27,6 +27,34 @@ enum UserStatus {
   SUSPENDED
 }
 
+enum LoanStatus {
+  PENDING
+  ACTIVE
+  PAID
+  REJECTED
+}
+
+enum ContributionType {
+  MONTHLY_CONTRIBUTION
+  LOAN_REPAYMENT
+  VOLUNTARY
+  FINE
+  OTHER
+}
+
+enum ContributionStatus {
+  PENDING
+  RECEIVED
+  CANCELLED
+}
+
+
+enum TransactionType {
+  IN
+  OUT
+}
+
+
 
 // Models
 model User {
@@ -40,5 +68,55 @@ model User {
   role       UserRole   @default(USER)
   status     UserStatus @default(ACTIVE)
 
+  loans Loan[]
+  contributions Contribution[]
 }
 
+model Loan {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  interestRate Float
+  status    LoanStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  description String?
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+
+  contributions Contribution[]
+  transactions Transaction[]
+}
+
+
+model Contribution {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  status    ContributionStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  contributionType      ContributionType @default(MONTHLY_CONTRIBUTION)
+  description String?
+
+  loanId Int?
+  loan      Loan?   @relation(fields: [loanId], references: [id])
+
+  userId    Int
+  user      User   @relation(fields: [userId], references: [id])
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id        Int    @id @default(autoincrement())
+  amount    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  transactionType TransactionType @default(IN)
+
+  contributionId Int
+  contribution      Contribution   @relation(fields: [contributionId], references: [id])
+
+  loanId Int
+  loan      Loan   @relation(fields: [loanId], references: [id])
+
+}
