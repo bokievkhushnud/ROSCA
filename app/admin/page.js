@@ -1,6 +1,7 @@
 'use client'
 
 import PageContent from "@/components/ui/pageContent";
+import TableSkeleton from "@/components/common/tableSkeleton";
 import Table from "@/components/common/table";
 import UsersTable from "@/app/admin/usersTable";
 import { useQuery } from "@tanstack/react-query";
@@ -26,7 +27,7 @@ export default function AdminPage() {
  
 	return (
 		<PageContent title="Admin Page">
-      {isUsersLoading ? <div>Loading...</div> : <UsersTable users={usersData} />}
+      {isUsersLoading ? <TableSkeleton headers={headers} /> : <UsersTable users={usersData} />}
 			<Table items={loans} headers={headers} onEdit={() => {}} onDelete={() => {}} onAdd={() => {}} title="Loans" />
 			<Table items={contributions} headers={headers} onEdit={() => {}} onDelete={() => {}} onAdd={() => {}} title="Contributions" />
 		</PageContent>
