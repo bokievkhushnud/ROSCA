@@ -78,6 +78,7 @@ model Loan {
   interestRate Float
   status    LoanStatus @default(PENDING)
   createdAt DateTime @default(now())
+  issueDate DateTime
   updatedAt DateTime @updatedAt
   description String?
   userId    Int
