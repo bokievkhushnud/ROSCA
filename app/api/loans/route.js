@@ -9,7 +9,16 @@ export async function POST(req, res) {
 		const { amount, interestRate, userId, issueDate, status, description } =
 			await req.json();
 
-		if (!amount || !interestRate || !userId || !issueDate) {
+		const payload = {
+			amount: Number.parseInt(amount),
+			interestRate: Number.parseFloat(interestRate),
+			userId: Number.parseInt(userId),
+			issueDate: new Date(issueDate),
+			status: String(status) ,
+			description: String(description),
+		};
+
+		if (!payload.amount || !payload.interestRate || !payload.userId || !payload.issueDate) {
 			return NextResponse.json(
 				{
 					error:
@@ -19,7 +28,7 @@ export async function POST(req, res) {
 			);
 		}
 
-		if (amount <= 0 || interestRate < 0) {
+		if (payload.amount <= 0 || payload.interestRate < 0) {
 			return NextResponse.json(
 				{
 					error:
@@ -31,7 +40,7 @@ export async function POST(req, res) {
 
 		// Validate status enum
 		const validStatuses = ["PENDING", "ACTIVE", "PAID", "REJECTED"];
-		if (status && !validStatuses.includes(status)) {
+		if (payload.status && !validStatuses.includes(payload.status)) {
 			return NextResponse.json(
 				{
 					error: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
@@ -41,7 +50,7 @@ export async function POST(req, res) {
 		}
 
 		// Validate issueDate
-		if (Number.isNaN(new Date(issueDate).getTime())) {
+		if (Number.isNaN(new Date(payload.issueDate).getTime())) {
 			return NextResponse.json(
 				{ error: "Invalid issueDate format. Expected a valid date." },
 				{ status: 400 },
@@ -49,19 +58,10 @@ export async function POST(req, res) {
 		}
 
 		// Check if user exists
-		const user = await prisma.user.findUnique({ where: { id: userId } });
+		const user = await prisma.user.findUnique({ where: { id: payload.userId } });
 		if (!user) {
 			return NextResponse.json({ error: "User not found." }, { status: 404 });
 		}
-
-        const payload = {
-			amount: Number.parseInt(amount),
-			interestRate: Number.parseFloat(interestRate),
-			userId: Number.parseInt(userId),
-			issueDate: new Date(issueDate),
-			status: String(status) ,
-			description: String(description),
-		};
 
 		// Create the loan record
 		const loan = await prisma.loan.create({
@@ -107,4 +107,10 @@ export async function GET(req) {
 		},
 	});
 	return NextResponse.json(loans);
+}
+
+export async function DELETE(req, res) {
+	const { id } = await req.json();
+	await prisma.loan.delete({ where: { id: id } });
+	return NextResponse.json({ success: true }, { status: 200 });
 }

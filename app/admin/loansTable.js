@@ -3,28 +3,56 @@ import Table from "@/components/common/table";
 import Modal from "@/components/common/modal";
 import LoanForm from "@/components/common/loanForm";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const headers = ["Issued to", "Issue Date", "Initial Amount", "Interest Rate", "Amount to Pay", "Status"];
 
 const adaptLoansForTable = (loans) => {
     return loans.map((loan) => ({
         id: loan.id,
-        "issued to": `${loan.user.firstName} ${loan.user.lastName}`, // Match header "Issued to"
-        "issue date": new Date(loan.issueDate).toLocaleDateString(), // Match header "Issue Date"
-        "initial amount": loan.amount, // Match header "Initial Amount"
-        "interest rate": `${loan.interestRate}%`, // Match header "Interest Rate"
-        "amount to pay": `${loan.amount + (loan.interestRate/100 * loan.amount)}`, // Match header "Amount to Pay"
-        status: loan.status, // Match header "Status"
+        "issued to": `${loan.user.firstName} ${loan.user.lastName}`,
+        "issue date": new Date(loan.issueDate).toLocaleDateString(),
+        "initial amount": loan.amount,
+        "interest rate": `${loan.interestRate}%`,
+        "amount to pay": `${loan.amount + (loan.interestRate / 100 * loan.amount)}`,
+        status: loan.status,
     }));
 };
 
 export default function LoansTable({ users, loans }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedLoan, setSelectedLoan] = useState(null);
+	const queryClient = useQueryClient();
+
+	const { mutate: deleteLoan, isPending: isDeleting } = useMutation({
+		mutationFn: (loan) => {
+			return fetch("/api/loans", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ id: loan.id }),
+			});
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["loans"] });
+			setSelectedLoan(null);
+		},
+	});
+
 	const onAddHandler = () => {
 		setIsModalOpen(true);
 	};
 
+	const onDeleteHandler = (loan) => {
+		setSelectedLoan(loan);
+	};
+
+	const handleConfirmDelete = () => {
+		if (selectedLoan) {
+			deleteLoan(selectedLoan);
+		}
+	};
 
 	return (
 		<>
@@ -33,12 +61,40 @@ export default function LoansTable({ users, loans }) {
 				headers={headers}
 				items={adaptLoansForTable(loans)}
 				onEdit={() => {}}
-				onDelete={() => {}}
+				onDelete={onDeleteHandler}
 				onAdd={onAddHandler}
 			/>
 			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<LoanForm users={users || []} onCancel={() => setIsModalOpen(false)} />
 			</Modal>
+			{selectedLoan && (
+				<Modal isOpen={!!selectedLoan} onClose={() => setSelectedLoan(null)}>
+					<div className="text-center">
+						<h3 className="text-lg font-medium text-gray-900">
+							Confirm Deletion
+						</h3>
+						<p className="mt-2 text-sm text-gray-500">
+							Are you sure you want to delete the loan issued to {selectedLoan["issued to"]}? This action cannot be undone.
+						</p>
+						<div className="mt-4 flex justify-center gap-2">
+							<button
+								type="button"
+								className="inline-flex justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2"
+								onClick={handleConfirmDelete}
+							>
+								{isDeleting ? "Deleting..." : "Confirm"}
+							</button>
+							<button
+								type="button"
+								className="inline-flex justify-center rounded-md border border-transparent bg-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+								onClick={() => setSelectedLoan(null)}
+							>
+								Cancel
+							</button>
+						</div>
+					</div>
+				</Modal>
+			)}
 		</>
 	);
 }
