@@ -21,6 +21,7 @@ const adaptLoansForTable = (loans) => {
 
 export default function LoansTable({ users, loans }) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isDeletingInProgress, setIsDeletingInProgress] = useState(false);
 	const [selectedLoan, setSelectedLoan] = useState(null);
 	const queryClient = useQueryClient();
 
@@ -41,11 +42,19 @@ export default function LoansTable({ users, loans }) {
 	});
 
 	const onAddHandler = () => {
+		setSelectedLoan(null);
+		setIsModalOpen(true);
+	};
+
+	const onEditHandler = (loanFromTable) => {
+		const selectedLoan = loans.find((loan) => loan.id === loanFromTable.id);
+		setSelectedLoan(selectedLoan);
 		setIsModalOpen(true);
 	};
 
 	const onDeleteHandler = (loan) => {
 		setSelectedLoan(loan);
+		setIsDeletingInProgress(true);
 	};
 
 	const handleConfirmDelete = () => {
@@ -60,15 +69,15 @@ export default function LoansTable({ users, loans }) {
 				title="Loans"
 				headers={headers}
 				items={adaptLoansForTable(loans)}
-				onEdit={() => {}}
+				onEdit={onEditHandler}
 				onDelete={onDeleteHandler}
 				onAdd={onAddHandler}
 			/>
 			<Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-				<LoanForm users={users || []} onCancel={() => setIsModalOpen(false)} />
+				<LoanForm users={users || []} loan={selectedLoan} onCancel={() => setIsModalOpen(false)} />
 			</Modal>
 			{selectedLoan && (
-				<Modal isOpen={!!selectedLoan} onClose={() => setSelectedLoan(null)}>
+				<Modal isOpen={isDeletingInProgress} onClose={() => setIsDeletingInProgress(false)}>
 					<div className="text-center">
 						<h3 className="text-lg font-medium text-gray-900">
 							Confirm Deletion

@@ -2,7 +2,51 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+const LOAN_STATUS = ["PENDING", "ACTIVE", "PAID", "REJECTED"];
 
+const validateLoan = (payload) => {
+	if (!payload.amount || !payload.interestRate || !payload.userId || !payload.issueDate) {
+		return NextResponse.json(
+			{
+				error:
+					"All fields are required: amount, interestRate, userId, issueDate.",
+			},
+			{ status: 400 },
+		);
+	}
+
+	if (payload.amount <= 0 || payload.interestRate < 0) {
+		return NextResponse.json(
+			{
+				error:
+					"Amount must be positive and interest rate cannot be negative.",
+			},
+			{ status: 400 },
+		);
+	}
+
+	// Validate status enum
+	if (payload.status && !LOAN_STATUS.includes(payload.status)) {
+		return NextResponse.json(
+			{
+				error: `Invalid status. Must be one of: ${LOAN_STATUS.join(", ")}`,
+			},
+			{ status: 400 },
+		);
+	}
+
+	// Validate issueDate
+	if (Number.isNaN(new Date(payload.issueDate).getTime())) {
+		return NextResponse.json(
+			{ error: "Invalid issueDate format. Expected a valid date." },
+			{ status: 400 },
+		);
+	}
+
+	return true;
+}
+
+// Create a loan
 export async function POST(req, res) {
 	try {
 		// Parse and validate input
@@ -18,44 +62,7 @@ export async function POST(req, res) {
 			description: String(description),
 		};
 
-		if (!payload.amount || !payload.interestRate || !payload.userId || !payload.issueDate) {
-			return NextResponse.json(
-				{
-					error:
-						"All fields are required: amount, interestRate, userId, issueDate.",
-				},
-				{ status: 400 },
-			);
-		}
-
-		if (payload.amount <= 0 || payload.interestRate < 0) {
-			return NextResponse.json(
-				{
-					error:
-						"Amount must be positive and interest rate cannot be negative.",
-				},
-				{ status: 400 },
-			);
-		}
-
-		// Validate status enum
-		const validStatuses = ["PENDING", "ACTIVE", "PAID", "REJECTED"];
-		if (payload.status && !validStatuses.includes(payload.status)) {
-			return NextResponse.json(
-				{
-					error: `Invalid status. Must be one of: ${validStatuses.join(", ")}`,
-				},
-				{ status: 400 },
-			);
-		}
-
-		// Validate issueDate
-		if (Number.isNaN(new Date(payload.issueDate).getTime())) {
-			return NextResponse.json(
-				{ error: "Invalid issueDate format. Expected a valid date." },
-				{ status: 400 },
-			);
-		}
+		validateLoan(payload);
 
 		// Check if user exists
 		const user = await prisma.user.findUnique({ where: { id: payload.userId } });
@@ -109,8 +116,26 @@ export async function GET(req) {
 	return NextResponse.json(loans);
 }
 
+// Delete a loan
 export async function DELETE(req, res) {
 	const { id } = await req.json();
 	await prisma.loan.delete({ where: { id: id } });
+	return NextResponse.json({ success: true }, { status: 200 });
+}
+
+// Update a loan
+export async function PUT(req, res) {
+	const { id, amount, interestRate, userId, issueDate, status, description } = await req.json();
+	const payload = {
+		amount: Number.parseInt(amount),
+		interestRate: Number.parseFloat(interestRate),
+		userId: Number.parseInt(userId),
+		issueDate: new Date(issueDate),
+		status: String(status),
+		description: String(description),
+	};
+
+	validateLoan(payload);
+	await prisma.loan.update({ where: { id: id }, data: { ...payload } });
 	return NextResponse.json({ success: true }, { status: 200 });
 }

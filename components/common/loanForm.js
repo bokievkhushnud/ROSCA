@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function LoanForm({ users, onCancel }) {
+export default function LoanForm({ users, onCancel, loan }) {
+
 	const [formData, setFormData] = useState({
-		amount: 0,
-		interestRate: 2,
-		status: "PENDING",
-		issueDate: new Date().toISOString().split('T')[0], // Default to current date and time
-		userId: users.length > 0 ? users[0].id : null,
-		description: "",
+		amount: loan?.amount || 0,
+		interestRate: loan?.interestRate || 2,
+		status: loan?.status || "PENDING",
+		issueDate: new Date(loan?.issueDate).toISOString().split("T")[0] || new Date().toISOString().split("T")[0],
+		userId: loan?.userId || (users.length > 0 ? users[0].id : null),
+		description: loan?.description || "",
 	});
 
 	const [errors, setErrors] = useState({});
@@ -42,6 +43,26 @@ export default function LoanForm({ users, onCancel }) {
 		},
 	});
 
+	const { mutate: updateLoan, isPending: isUpdating } = useMutation({
+		mutationFn: async (updatedLoan) => {
+			const response = await fetch('/api/loans', {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ id: loan.id, ...updatedLoan }),
+			});
+			return response.json();
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["loans"] });
+			onCancel(); // Close the modal on success
+		},
+		onError: (updatingError) => {
+			setErrors((prev) => ({ ...prev, form: updatingError.message }));
+		},
+	});
+
 	const validate = () => {
 		const newErrors = {};
 		if (!formData.amount) newErrors.amount = "Amount is required.";
@@ -59,7 +80,7 @@ export default function LoanForm({ users, onCancel }) {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (validate()) {
-			addLoan(formData);
+			loan ? updateLoan(formData) : addLoan(formData);
 		}
 	};
 
@@ -164,15 +185,27 @@ export default function LoanForm({ users, onCancel }) {
 				>
 					Cancel
 				</button>
-				<button
-					type="submit"
+				{loan ? (
+					<button
+						type="submit"
+						disabled={isUpdating}
+						className={`inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
+							isUpdating ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
+						}`}
+					>
+						{isUpdating ? "Updating..." : "Update"}
+					</button>
+				) : (
+					<button
+						type="submit"
 					disabled={isAdding}
 					className={`inline-flex justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${
 						isAdding ? "bg-indigo-400" : "bg-indigo-600 hover:bg-indigo-700"
 					}`}
 				>
-					{isAdding ? "Saving..." : "Save"}
-				</button>
+						{isAdding ? "Adding..." : "Add"}
+					</button>
+				)}
 			</div>
 		</form>
 	);
